@@ -1,0 +1,77 @@
+Project Outline
+
+Game Logic
+	card
+		suit
+		color
+		value
+		face up/down
+
+	stack (linked list?)
+		cards snap to stack
+		offset for stacked card
+		stacking rules
+			open cards
+				red > black
+				black > red
+				value > value-1
+			home cards
+				empty > Ace
+				suit > suit
+				value > value+1
+			new stack
+				King
+			hand
+				closed stack > open stack
+
+	deal
+		shuffle
+		layout
+			consecutive stack sizes from 1 to 7
+		flip top card in each stack (optionally always flip to card)
+
+	win condition
+		all 4 suits in home stacks
+
+	score
+		time
+		moves
+
+GUI
+	draw window
+		scale contents with window size
+		draw cards
+		draw menu
+
+	draw card
+		shape
+		position
+
+	interaction
+		drag with mouse
+		snap to position
+		click to flip card
+
+	deal cards
+		randomizer
+		stacking rules
+
+	Customization
+		background color/design
+		card back color/design
+		card front color/design
+		sound
+			card flip
+			card move
+			card home
+			game start
+			game win
+
+	Menu
+		restart
+		set colors
+		toggle sounds
+		toggle score
+		statistics
+			best/average time
+			best/average score
