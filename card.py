@@ -74,7 +74,7 @@ class Card:
 		card.face = not card.face
 
 	def getInfo(card):
-		return f'{card.value.name} of {card.suit.name}S facing {'UP' if card.face else 'DOWN'}'
+		return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
 
 
 # testing
