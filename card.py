@@ -1,10 +1,10 @@
-from enum import Enum, auto
+from enum import Enum, StrEnum, IntEnum
 
-class Suit(Enum):
-	SPADE = auto()
-	HEART = auto()
-	CLUB = auto()
-	DIAMOND = auto()
+class Suit(StrEnum):
+	SPADE = 'spade'
+	HEART = 'heart'
+	CLUB = 'club'
+	DIAMOND = 'diamond'
 
 	# check first letter of string to infer intended suit name
 	@classmethod
@@ -18,9 +18,9 @@ class Suit(Enum):
 		# dictionary lookup is cleaner than match/case or if/elif/else
 		# https://stackoverflow.com/a/103081
 
-class Color(Enum):
-	BLACK = auto()
-	RED = auto()
+class Color(StrEnum):
+	BLACK = 'black'
+	RED = 'red'
 
 	@classmethod
 	def _missing_(cls, value):
@@ -29,7 +29,7 @@ class Color(Enum):
 			'r': cls.RED
 		}.get(value.lower()[0:1], None)
 
-class Value(Enum):
+class Value(IntEnum):
 	ACE = 1
 	TWO = 2
 	THREE = 3
@@ -78,12 +78,12 @@ class Card:
 
 
 # testing
-# c = Card(4,'s')
-# print(repr(c.value))
-# print(repr(c.suit))
-# print(c.face)
-# c.flip()
-# print(c.face)
-# print(c.getInfo())
+c = Card(4,'s')
+print(repr(c.value))
+print(repr(c.suit))
+print(c.face)
+c.flip()
+print(c.face)
+print(c.getInfo())
 
 # author: Narbeh Malekian
