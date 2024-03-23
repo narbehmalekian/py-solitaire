@@ -62,28 +62,34 @@ class Value(IntEnum):
 #
 class Card:
 	def __init__(card, v, s, f=False):
-		card.value = Value(v)
-		card.suit = Suit(s)
+		card._value = Value(v)
+		card._suit = Suit(s)
 		card.face = f
 
 	@property
 	def color(card):
 		return Color.BLACK if card.suit in [Suit.SPADE, Suit.CLUB] else Color.RED
 
+	@property
+	def value(card):
+		return card._value
+
+	@property
+	def suit(card):
+		return card._suit
+
 	def flip(card):
 		card.face = not card.face
 
-	def getInfo(card):
+	def __repr__(card):
 		return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
 
 
 # testing
 c = Card(4,'s')
-print(repr(c.value))
-print(repr(c.suit))
 print(c.face)
 c.flip()
 print(c.face)
-print(c.getInfo())
+print(c)
 
-# author: Narbeh Malekian
+#	author: Narbeh Malekian
