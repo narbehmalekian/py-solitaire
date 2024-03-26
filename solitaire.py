@@ -1,10 +1,7 @@
 import tkinter as tk
 
 window = tk.Tk()
-message = tk.Label(
-	text='[insert solitaire here]',
-	width = 50,
-	height = 10
-)
+window.geometry('200x80')
+message = tk.Label(text='[insert solitaire here]')
 message.pack()
 window.mainloop()

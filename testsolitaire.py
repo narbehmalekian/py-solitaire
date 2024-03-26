@@ -203,9 +203,9 @@ def play():
 					orig[-1].face = True
 			elif move == 'force win':
 				for stack in playstacks:
-					for c in stack:
+					while stack:
 						stack.pop()
-				for c in hand:
+				while hand:
 					hand.pop()
 			else:
 				print('That\'s not a valid move!\n')
