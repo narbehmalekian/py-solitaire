@@ -63,7 +63,6 @@ def next():
 	else:
 		print('Hand is empty.')
 
-
 def showgame():
 	print('  Home Stacks')
 	for i in range(len(homestacks)):
@@ -171,6 +170,7 @@ def play():
 				# 	#move an ace
 				move = c + move
 		if move == '':
+			ctmoves += 1
 			next()
 		elif move == 'quit':
 			exit()
@@ -201,10 +201,16 @@ def play():
 						dest.append(c)
 				if orig:
 					orig[-1].face = True
+			elif move == 'force win':
+				for stack in playstacks:
+					for c in stack:
+						stack.pop()
+				for c in hand:
+					hand.pop()
 			else:
 				print('That\'s not a valid move!\n')
 		else:
 			print('That command is not recognized. Please try again.\nFor possible commands, type help\n')
-	print(f'You won with {ctmoves} moves in {time.time()-t} seconds!')
+	print(f'You won with {ctmoves} moves in {int((time.time()-t)//60)} min {int((time.time()-t)%60)} sec!')
 
 play()
