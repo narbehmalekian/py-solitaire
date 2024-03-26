@@ -1,5 +1,5 @@
 from card import *
-import random, time
+import random, time, os
 
 clubhome = []
 spadehome = []
@@ -119,34 +119,47 @@ def help():
 	print('In solitaire, the goal is to organize all the cards into the Home Stacks.')
 	print('Cards must be placed, in order, A, 2, 3, ... 10 , J, Q, K, into stacks of matching suit.')
 	print('Most of the cards are hidden in the Play Stacks and in your hand.')
-	print('To reveal the cards, you can move them in your Play Stacks, but according to the following rules:')
-	print('A card must be placed on another card with value ONE greater than itself.')
-	print('A card must be placed on another card of opposite color to itself.')
-	print('Except a king, which must be placed in an empty stack.')
+	print('To reveal the cards, you can move them in your Play Stacks,\nfollowing these rules:')
+	print('  A card must be placed on another card with value ONE greater than itself.')
+	print('  A card must be placed on another card of opposite color to itself.')
+	print('  Except a king, which must be placed in an empty stack.')
 	print()
-	print('Next to each stack is an identifying number or letter.')
-	print('Use these identifiers to select an origin and destination stack.')
-	print('The game will move the card or cards to the stack you select.')
-	print('Example: to move a card from Play Stack \'4\' to Home Stack \'a\', type 4a')
-	print('There are also 2 shortcuts:')
-	print('Type just the stack number to send your hand card to that stack number.')
-	print('Type just the home letter to send the next card of the matching suit to that home stack.')
+	print('Use the number or letter next to each stack to select an the origin and destination for the card you want to move.')
+	print('Example: to move a card from Play Stack \'4\' to Home Stack \'b\', type 4b')
+	print('┃ b [A♥] ◀────╮   ┃')
+	print('┃ 4 [_, _, _, 2♥] ┃')
+	print('┃ > 4b            ┃')
 	print()
-	print('Here are some other commands:')
-	print('Enter - show the next card in your hand')
-	print('quit - ends the game')
-	print('help - shows this message')
+	print('If you type only the stack number,')
+	print(' the game will assume you meant to send your hand card to that stack.')
+	print('If you type only the home letter,')
+	print(' the game will assume you meant to send the next card of the matching suit to that home stack.')
+	print()
+	print('To show the next card in your hand, press Enter')
+	print('To ends the game, type quit')
+	print('To shows this message, type help')
 	print()
 	print('Have fun playing!\n')
 	input('Press Enter to return to the game.\n')
+	os.system('clear')
 
 def play():
-	input('Welcome to solitaire!\nType help at any time after starting the game to learn how to play.\n\nPress Enter to begin!\n')
+	os.system('clear')
+	init = input('Welcome to solitaire!\nTo learn how to play, start the game, then type help\n\nPress Enter to begin!\n')
+	os.system('clear')
 	ctmoves = 0
 	t = time.time()
 	while not win():
+		if init:
+			if init == 'help':
+				help()
+			elif init == 'quit':
+				exit()
+			init = ''
+			t = time.time()
 		showgame()
 		move = input('> ')
+		os.system('clear')
 		if len(move) == 1:
 			# hand to stack shortcut
 			if move in '1234567':
@@ -192,10 +205,8 @@ def play():
 						destCval = dest[-1].value
 						destCcol = dest[-1].color
 					temp = [orig.pop()]
-					print(f'temp moving list: {temp}')
 					while temp[-1].value != destCval-1 or temp[-1].color == destCcol:
 						temp.append(orig.pop())
-						print(temp)
 					temp.reverse()
 					for c in temp:
 						dest.append(c)
@@ -211,6 +222,9 @@ def play():
 				print('That\'s not a valid move!\n')
 		else:
 			print('That command is not recognized. Please try again.\nFor possible commands, type help\n')
-	print(f'You won with {ctmoves} moves in {int((time.time()-t)//60)} min {int((time.time()-t)%60)} sec!')
+	showgame()
+	c = True if ((time.time()-t)//60<1) else False # check if user cheated
+	q = '\"' # double quote string bc fstring complains about the backslash
+	print(f'You {"cheated and "+q if c else ""}won{q if c else ""} with {ctmoves} moves in {int((time.time()-t)//60)} min, {int((time.time()-t)%60)} sec!')
 
 play()
