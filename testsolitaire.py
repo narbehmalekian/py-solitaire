@@ -1,5 +1,5 @@
 from card import *
-import random
+import random, time
 
 clubhome = []
 spadehome = []
@@ -79,7 +79,12 @@ def showgame():
 	print()
 
 def win():
-	return False
+	for stack in playstacks:
+		if stack:
+			return False
+	if hand:
+		return False
+	return True
 
 stacklookup = {'a':spadehome, 'b':hearthome, 'c':clubhome, 'd':diamondhome, '1':stack1, '2':stack2, '3':stack3, '4':stack4, '5':stack5, '6':stack6, '7':stack7, 'h':hand}
 def validMove(o, d):
@@ -124,6 +129,9 @@ def help():
 	print('Use these identifiers to select an origin and destination stack.')
 	print('The game will move the card or cards to the stack you select.')
 	print('Example: to move a card from Play Stack \'4\' to Home Stack \'a\', type 4a')
+	print('There are also 2 shortcuts:')
+	print('Type just the stack number to send your hand card to that stack number.')
+	print('Type just the home letter to send the next card of the matching suit to that home stack.')
 	print()
 	print('Here are some other commands:')
 	print('Enter - show the next card in your hand')
@@ -135,6 +143,8 @@ def help():
 
 def play():
 	input('Welcome to solitaire!\nType help at any time after starting the game to learn how to play.\n\nPress Enter to begin!\n')
+	ctmoves = 0
+	t = time.time()
 	while not win():
 		showgame()
 		move = input('> ')
@@ -154,8 +164,9 @@ def play():
 							if playstacks[i][-1].suit == s and playstacks[i][-1].value == v:
 								c = str(i+1)
 					# send home from hand
-					if hand[-1].suit == s and hand[-1].value == v:
-						c = 'h'
+					if hand:
+						if hand[-1].suit == s and hand[-1].value == v:
+							c = 'h'
 				# else:
 				# 	#move an ace
 				move = c + move
@@ -169,6 +180,7 @@ def play():
 			o = move[0]
 			d = move[1]
 			if validMove(o, d):
+				ctmoves += 1
 				orig = stacklookup.get(o)
 				dest = stacklookup.get(d)
 				if d in 'abcd':
@@ -193,5 +205,6 @@ def play():
 				print('That\'s not a valid move!\n')
 		else:
 			print('That command is not recognized. Please try again.\nFor possible commands, type help\n')
+	print(f'You won with {ctmoves} moves in {time.time()-t} seconds!')
 
 play()

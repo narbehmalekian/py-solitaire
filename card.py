@@ -126,7 +126,7 @@ class Card:
 	def __repr__(card):
 		# return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
 		# return f'{card.value.name} of {card.suit.name}S' if card.face else '?'
-		return card.name if card.face else '?'
+		return card.name if card.face else '_'
 
 
 # testing
