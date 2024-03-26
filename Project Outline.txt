@@ -2,13 +2,13 @@ Project Outline
 
 Game Logic
 	card
-		suit
-		color
-		value
-		face up/down
+		✅ suit
+		✅ color
+		✅ value
+		✅ face up/down
+		position
 
-	stack (linked list?)
-		cards snap to stack
+	stack
 		offset for stacked card
 		stacking rules
 			open cards
@@ -49,7 +49,7 @@ GUI
 
 	interaction
 		drag with mouse
-		snap to position
+		snap to stack
 		click to flip card
 
 	deal cards

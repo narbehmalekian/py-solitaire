@@ -1,16 +1,45 @@
 from card import *
 
+#	helper func for setting position and rotation of the stack
+#	converts transform values into tuples
+#	num: the number or tuple to be processed into a tuple of numbers
+#	offset: the second element in the tuple
+def num2tuple(num, offset=0):
+	if isinstance(num, (int, float)):
+		tup = (num, offset)
+	elif isinstance(num, tuple):
+		for n in num:
+			if not isinstance(n, (int,float)):
+				raise TypeError('Stack position and rotation must be a numbers or tuples of numbers. Got ', num)
+		tup = num
+	else:
+		raise TypeError('Stack position and rotation must be a numbers or tuples of numbers. Got ', num)
+	return tup
+
 #
 #	Stack Object
-#	x_offset: horizontal offset of consecutive cards on the stack
-#	y_offset: vertical offset ...
-#	cards: cards to be stacked
+#	cards: cards to be stacked (Card objects, or list of Card objects)
+#	x/y_pos: position of the stack in the window
+#		use a tuple to define custom stack shape
+#	rot: rotation of the stack in the window
+#		use a tuple to define custom stack shape
 #
 class Stack:
-	def __init__(stack, *cards, x_offset=0, y_offset=0):
-		stack.x = x_offset
-		stack.y = y_offset
+	def __init__(stack, *cards, x_pos=0, y_pos=0, rot=0, tidy=True):
+		stack.x = num2tuple(x_pos, 0.1)
+		stack.y = num2tuple(y_pos)
+		stack.r = num2tuple(rot)
+		stack.x_transform = []
+		stack.y_transform = []
+		stack.rot_transform = []
+		stack.updateTransforms()
 		stack.cards = [card for group in cards for card in (group if isinstance(group, list) else [group]) if isinstance(card, Card)]
+		if tidy:
+			stack.tidy()
+
+	def updateTransforms(stack):
+		for x in range(stack.x):
+			stack.x_transform[len(stack.x)-x] = 
 
 	def shuffle(stack):
 		stack.cards.shuffle()
@@ -20,10 +49,21 @@ class Stack:
 		for card in stack.cards:
 			card.flip()
 
+	#	positions cards according to the stack's rules
+	def tidy():
+		# todo
+		return
+
+	def draw(stack):
+		# for card in stack.cards:
+		# todo
+		return
+
 	def __len__(stack):
 		return len(stack.cards)
 
-	def __add__(stack, *moreCards):
+	# tidy is not implemented
+	def __add__(stack, *moreCards, tidy=True):
 		for item in moreCards:
 			if isinstance(item, Card):
 				stack.cards += [item]
@@ -47,17 +87,14 @@ class Stack:
 		return Stack(cards)
 
 	def __repr__(stack):
-		return 'Stack of:\n'+'\n'.join([card.__repr__() for card in stack.cards])
+		return 'Stack of:\n'+'\n'.join([card.__repr__() for card in stack.cards])+'\n'
 
 
 #	testing
 s = Stack(Card(4,"s"), Card(1,"c"))
-print(s)
 s += Card(1,'s')
 s += Stack(Card(2,'s'),Card(3,'s'))
-print(s)
-c = s - 1
-print(s)
-print(c)
+t = Stack(Card(7,'dia'), x_pos=3, y_pos=(2,1))
+print(t.x)
 
 #	author: Narbeh Malekian

@@ -36,7 +36,7 @@ class Value(IntEnum):
 	FOUR = 4
 	FIVE = 5
 	SIX = 6
-	SEVEN =7 
+	SEVEN =7
 	EIGHT = 8
 	NINE = 9
 	TEN = 10
@@ -61,10 +61,32 @@ class Value(IntEnum):
 #	f: is the card face-up (boolean)
 #
 class Card:
-	def __init__(card, v, s, f=False):
-		card._value = Value(v)
-		card._suit = Suit(s)
-		card.face = f
+	def __init__(card, value, suit, position=(0,0,0), faceUp=False, height=7, width=5):
+		card._val = Value(value)
+		card._suit = Suit(suit)
+		card.h = height
+		card.w = width
+		if not isinstance(faceUp, bool):
+			raise TypeError('Card faceUp orientation must be boolean. Got: ', faceUp)
+		card.face = faceUp 
+		if not isinstance(position, tuple) or not len(position) == 3:
+			raise TypeError('Card position must be a tuple of length 3, in the form (x, y, rotation). Got: ', position)
+		for i in range(3):
+			if not isinstance(position[i], (int,float)):
+				raise TypeError('Card position values must be numeric, in the form (x, y, rotation). Got: ', position)
+		card.pos = position
+
+	@property
+	def x(card):
+		return card.position[0]
+
+	@property
+	def y(card):
+		return card.position[1]
+
+	@property
+	def rot(card):
+		return card.position[2]
 
 	@property
 	def color(card):
@@ -72,24 +94,46 @@ class Card:
 
 	@property
 	def value(card):
-		return card._value
+		return card._val
 
 	@property
 	def suit(card):
 		return card._suit
 
+	@property
+	def height(card):
+		return card.h
+
+	@property
+	def width(card):
+		return card.w
+
 	def flip(card):
 		card.face = not card.face
 
+	def draw(card):
+		#	will integrate into GUI
+		#	this function may not need to be here
+		return
+
+	#	a compact text representation of the card (A♤, Q♥, etc)
+	@property
+	def name(card):
+		values = {1:'A', 2:'2', 3:'3', 4:'4', 5:'5', 6:'6', 7:'7', 8:'8', 9:'9', 10:'10', 11:'J', 12:'Q', 13:'K'}
+		suits = {'spade':'♤','heart':'♥','club':'♧','diamond':'♦'}
+		return values.get(card.value.value) + suits.get(card.suit.value)
+
 	def __repr__(card):
-		return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
+		# return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
+		# return f'{card.value.name} of {card.suit.name}S' if card.face else '?'
+		return card.name if card.face else '?'
 
 
 # testing
-c = Card(4,'s')
-print(c.face)
-c.flip()
-print(c.face)
-print(c)
+# c = Card(4,'s')
+# print(c.face)
+# c.flip()
+# print(c.face)
+# print(c)
 
 #	author: Narbeh Malekian
