@@ -39,7 +39,8 @@ for i in range(0,7):
 	playstacks[i][i].flip()
 
 # testing
-# stack1.pop()
+# stack1.append(Card(2,'d'))
+# stack1[-1].flip()
 # stack2.append(Card(1,"d"))
 # stack2[-1].flip()
 
@@ -55,9 +56,12 @@ def rotated(l, n):
 	return l[n:] + l[:n]
 
 def next():
-	fliplast()
-	hand.append(hand.pop(0))
-	fliplast()
+	if hand:
+		fliplast()
+		hand.append(hand.pop(0))
+		fliplast()
+	else:
+		print('Hand is empty.')
 
 
 def showgame():
@@ -148,7 +152,8 @@ def play():
 					for i in range(len(playstacks)):
 						if playstacks[i]:
 							if playstacks[i][-1].suit == s and playstacks[i][-1].value == v:
-								c = str(i)
+								c = str(i+1)
+					# send home from hand
 					if hand[-1].suit == s and hand[-1].value == v:
 						c = 'h'
 				# else:
