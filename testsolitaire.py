@@ -1,4 +1,5 @@
 from card import *
+from sys import platform
 import random, time, os
 
 clubhome = []
@@ -51,6 +52,12 @@ def fliplast():
 	hand[len(hand)-1].flip()
 
 fliplast()
+
+def clear():
+	if "win" in platform:
+		os.system('cls')
+	else:
+		os.system('clear')
 
 def rotated(l, n):
 	return l[n:] + l[:n]
@@ -141,12 +148,12 @@ def help():
 	print()
 	print('Have fun playing!\n')
 	input('Press Enter to return to the game.\n')
-	os.system('clear')
+	clear()
 
 def play():
-	os.system('clear')
+	clear()
 	init = input('Welcome to solitaire!\nTo learn how to play, start the game, then type help\n\nPress Enter to begin!\n')
-	os.system('clear')
+	clear()
 	ctmoves = 0
 	t = time.time()
 	while not win():
@@ -159,7 +166,7 @@ def play():
 			t = time.time()
 		showgame()
 		move = input('> ')
-		os.system('clear')
+		clear()
 		if len(move) == 1:
 			# hand to stack shortcut
 			if move in '1234567':
