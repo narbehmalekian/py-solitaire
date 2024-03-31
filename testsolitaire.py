@@ -99,7 +99,7 @@ def validMove(o, d):
 	if not orig:
 		return False
 	if o in 'abcd1234567h' and d in 'abcd1234567':
-		
+
 		if d in 'abcd':
 			last = orig[-1]
 
@@ -110,7 +110,7 @@ def validMove(o, d):
 			# home has cards, use home rules
 			else:
 				return (last.value == 1+dest[-1].value) and (last.suit == dest[-1].suit)
-		
+
 		elif d in '1234567':
 			if len(dest) == 0:
 				for card in orig:
@@ -232,6 +232,7 @@ def play():
 	showgame()
 	c = True if ((time.time()-t)//60<1) else False # check if user cheated
 	q = '\"' # double quote string bc fstring complains about the backslash
-	print(f'You {"cheated and "+q if c else ""}won{q if c else ""} with {ctmoves} moves in {int((time.time()-t)//60)} min, {int((time.time()-t)%60)} sec!')
+	print(f'You {"cheated and "+q if c else ""}won{q if c else ""} with {ctmoves} moves in {int((time.time()-t)//60)} min, {int((time.time()-t)%60)} sec!\n')
+	input("Press Enter to exit")
 
 play()
