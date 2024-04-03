@@ -1,4 +1,5 @@
 from card import *
+from typing import Callable
 
 #	helper func for setting position and rotation of the stack
 #	converts transform values into tuples
@@ -25,7 +26,7 @@ def num2tuple(num, offset=0):
 #		use a tuple to define custom stack shape
 #
 class Stack:
-	def __init__(stack, *cards, x_pos=0, y_pos=0, rot=0, tidy=True):
+	def __init__(stack, *cards: [Card, List[Card]], x_pos=0, y_pos=0, rot=0, tidy=True: Boolean, ruleFunc=(lambda a b:return True): Callable):
 		stack.x = num2tuple(x_pos, 0.1)
 		stack.y = num2tuple(y_pos)
 		stack.r = num2tuple(rot)
@@ -36,10 +37,12 @@ class Stack:
 		stack.cards = [card for group in cards for card in (group if isinstance(group, list) else [group]) if isinstance(card, Card)]
 		if tidy:
 			stack.tidy()
+		stack.rule = ruleFunc
 
 	def updateTransforms(stack):
-		for x in range(stack.x):
-			stack.x_transform[len(stack.x)-x] = 
+		# for x in range(stack.x):
+		# 	stack.x_transform[len(stack.x)-x] = 
+		return
 
 	def shuffle(stack):
 		stack.cards.shuffle()
@@ -49,7 +52,7 @@ class Stack:
 		for card in stack.cards:
 			card.flip()
 
-	#	positions cards according to the stack's rules
+	#	positions cards according to the stack's arrangement
 	def tidy():
 		# todo
 		return
@@ -66,7 +69,8 @@ class Stack:
 	def __add__(stack, *moreCards, tidy=True):
 		for item in moreCards:
 			if isinstance(item, Card):
-				stack.cards += [item]
+				if stack.rule(stack, item):
+					stack.cards += [item]
 			elif isinstance(item, Stack):
 				stack.cards += item.cards
 			elif isinstace(item, list):
@@ -75,6 +79,8 @@ class Stack:
 						stack.cards += item
 			else:
 				raise TypeError(f'Object added to a Stack must be of type Stack or Card, not {type(card)}')
+		if tidy:
+			stack.tidy()
 		return stack
 
 	#	Removes and returns the last N cards from the stack
