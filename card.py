@@ -123,6 +123,11 @@ class Card:
 		suits = {'spade':'♤','heart':'♥','club':'♧','diamond':'♦'}
 		return values.get(card.value.value) + suits.get(card.suit.value)
 
+	# check if two cards are the same
+	def __eq__(card, otherCard):
+		return card.value == otherCard.value & card.suit == otherCard.suit
+
+	# print card name and value when using print(card)
 	def __repr__(card):
 		# return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
 		# return f'{card.value.name} of {card.suit.name}S' if card.face else '?'
