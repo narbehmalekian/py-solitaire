@@ -36,7 +36,7 @@ class Value(IntEnum):
 	FOUR = 4
 	FIVE = 5
 	SIX = 6
-	SEVEN =7
+	SEVEN = 7
 	EIGHT = 8
 	NINE = 9
 	TEN = 10
@@ -68,7 +68,7 @@ class Card:
 		card.w = width
 		if not isinstance(faceUp, bool):
 			raise TypeError('Card faceUp orientation must be boolean. Got: ', faceUp)
-		card.face = faceUp 
+		card.face = faceUp
 		if not isinstance(position, tuple) or not len(position) == 3:
 			raise TypeError('Card position must be a tuple of length 3, in the form (x, y, rotation). Got: ', position)
 		for i in range(3):
