@@ -236,3 +236,5 @@ def play():
 	input("Press Enter to exit")
 
 play()
+
+#	author: Narbeh Malekian

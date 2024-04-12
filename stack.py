@@ -1,5 +1,6 @@
 from card import *
 from typing import *
+import math
 
 #	helper func for setting position and rotation of the stack
 #	converts transform values into tuples
@@ -17,9 +18,6 @@ def num2tuple(num, offset=0):
 		raise TypeError('Stack position and rotation must be a numbers or tuples of numbers. Got ', num)
 	return tup
 
-newDeck = [Card(v, s) for s in Suit for v in Value]
-newDeck.reverse()
-
 #
 #	Stack Object
 #	cards: cards to be stacked (Card objects, or list of Card objects)
@@ -36,26 +34,20 @@ class Stack:
 		y_pos = 0,
 		rot = 0,
 		tidy: bool = True,
-		ruleFunc: Callable = lambda a, b: True
+		ruleFunc: Callable = lambda a, b: True,
+		newDeck: bool = False
 	):
-		if not cards:
-			cards = newDeck
 		stack.x = num2tuple(x_pos, 0.1)
 		stack.y = num2tuple(y_pos)
 		stack.r = num2tuple(rot)
-		stack.x_transform = []
-		stack.y_transform = []
-		stack.rot_transform = []
-		stack.updateTransforms()
-		stack.cards = [card for group in cards for card in (group if isinstance(group, list) else [group]) if isinstance(card, Card)]
+		if newDeck:
+			stack.cards = [Card(v, s) for s in Suit for v in Value]
+			stack.cards.reverse()
+		else:
+			stack.cards = [card for group in cards for card in (group if isinstance(group, list) else [group]) if isinstance(card, Card)]
 		if tidy:
 			stack.tidy()
 		stack.rule = ruleFunc
-
-	def updateTransforms(stack):
-		# for x in range(stack.x):
-		# 	stack.x_transform[len(stack.x)-x] =
-		return
 
 	def shuffle(stack):
 		stack.cards.shuffle()
@@ -67,8 +59,15 @@ class Stack:
 
 	#	positions cards according to the stack's arrangement
 	def tidy(stack):
-		# todo
-		pass
+		for cardIndex in range(len(stack.cards)):
+			for i, tup in enumerate([stack.x, stack.y, stack.r]):
+				result = 0
+				#	transformation components are stored in the x, y, and r tuples
+				#	(x_pos, Δx_pos, Δ²x_pos, ...)
+				for comp in range(len(tup)):
+					result += math.comb(cardIndex, comp) * tup[comp]
+				c = stack.cards[cardIndex]
+				c.pos = c.pos[:i] + (result,) + c.pos[i+1:]
 
 	def draw(stack):
 		# for card in stack.cards:
@@ -120,20 +119,21 @@ class Stack:
 
 
 #	testing
-s = Stack(Card(4,"s"), Card(1,"c"))
-s += Card(1,'s')
-s += Stack(Card(2,'s'),Card(3,'s'))
-t = Stack(Card(7,'dia'), x_pos=3, y_pos=(2,1))
-print(t.x)
+# s = Stack(Card(4,"s"), Card(1,"c"))
+# s += Card(1,'s')
+# s += Stack(Card(2,'s'),Card(3,'s'))
+# t = Stack(Card(7,'dia'), x_pos=3, y_pos=(2,1))
+# print(t.x)
 
-homerule = lambda s, c : (s.cards[-1].suit == c.suit) & (s.cards[-1].value + 1 == c.value)
-newStack = Stack(Card("a", "s",faceUp=True), ruleFunc = homerule)
-print(newStack)
-newStack + Card(2,"s",faceUp=True)
-print(newStack)
-newStack + Card(3,"c",faceUp=True)
-newStack + Card(4,"d",faceUp=True)
-newStack + Card(4,"s",faceUp=True)
-print(newStack)
+#	more testing
+# homerule = lambda s, c : (s.cards[-1].suit == c.suit) & (s.cards[-1].value + 1 == c.value)
+# newStack = Stack(Card("a", "s",faceUp=True), ruleFunc = homerule)
+# print(newStack)
+# newStack + Card(2,"s",faceUp=True)
+# print(newStack)
+# newStack + Card(3,"c",faceUp=True)
+# newStack + Card(4,"d",faceUp=True)
+# newStack + Card(4,"s",faceUp=True)
+# print(newStack)
 
 #	author: Narbeh Malekian
