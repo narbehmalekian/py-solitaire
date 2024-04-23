@@ -1,6 +1,6 @@
 from card import *
 from typing import *
-import math
+import math, random
 
 #	helper func for setting position and rotation of the stack
 #	converts transform values into tuples
@@ -50,12 +50,18 @@ class Stack:
 		stack.rule = ruleFunc
 
 	def shuffle(stack):
-		stack.cards.shuffle()
+		random.shuffle(stack.cards)
 
 	def flip(stack):
 		stack.cards.reverse()
 		for card in stack.cards:
 			card.flip()
+
+	def move(stack, right:float=0, down:float=0, absolute:bool=False, tidy:bool=True):
+		stack.x = (right if absolute else right+stack.x[0],) + stack.x[1:]
+		stack.y = (down if absolute else down+stack.y[0],) + stack.y[1:]
+		if tidy:
+			stack.tidy()
 
 	#	positions cards according to the stack's arrangement
 	def tidy(stack):
@@ -69,18 +75,18 @@ class Stack:
 				c = stack.cards[cardIndex]
 				c.pos = c.pos[:i] + (result,) + c.pos[i+1:]
 
-	def draw(stack):
-		# for card in stack.cards:
-		# todo
-		pass
+	def pop(stack)->Card:
+		return stack.cards.pop()
 
-	def __getItem__(stack, i:int)->Card:
+	def __getitem__(stack, i:int)->Card:
 		return stack.cards[i]
 
 	def __len__(stack):
 		return len(stack.cards)
 
-	# tidy is not implemented
+	def append(stack, moreCards):
+		stack.cards.append(moreCards)
+
 	def __add__(stack, *moreCards, tidy=True):
 		for item in moreCards:
 
@@ -115,7 +121,7 @@ class Stack:
 		return Stack(cards)
 
 	def __repr__(stack):
-		return 'Stack of:\n'+'\n'.join([card.__repr__() for card in stack.cards])+'\n'
+		return f'Stack of {len(stack.cards)}:\n'+'\n'.join([card.__repr__() for card in stack.cards])+'\n'
 
 
 #	testing

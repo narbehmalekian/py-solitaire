@@ -61,7 +61,7 @@ class Value(IntEnum):
 #	f: is the card face-up (boolean)
 #
 class Card:
-	def __init__(card, value, suit, position=(0,0,0), faceUp=False, height=7, width=5):
+	def __init__(card, value, suit, position=(0,0,0), faceUp=False, height=70, width=50):
 		card._val = Value(value)
 		card._suit = Suit(suit)
 		card.h = height
@@ -77,31 +77,31 @@ class Card:
 		card.pos = position
 
 	@property
-	def x(card):
-		return card.position[0]
+	def x(card)->float:
+		return card.pos[0]
 
 	@property
-	def y(card):
-		return card.position[1]
+	def y(card)->float:
+		return card.pos[1]
 
 	@property
-	def rot(card):
-		return card.position[2]
+	def r(card)->float:
+		return card.pos[2]
 
 	@property
 	def color(card):
 		return Color.BLACK if card.suit in [Suit.SPADE, Suit.CLUB] else Color.RED
 
 	@property
-	def value(card):
+	def value(card)->Value:
 		return card._val
 
 	@property
-	def suit(card):
+	def suit(card)->Suit:
 		return card._suit
 
 	@property
-	def height(card):
+	def height(card)->float:
 		return card.h
 
 	@property
@@ -111,27 +111,25 @@ class Card:
 	def flip(card):
 		card.face = not card.face
 
-	def draw(card):
-		#	will integrate into GUI
-		#	this function may not need to be here
-		return
-
 	#	a compact text representation of the card (A♤, Q♥, etc)
 	@property
-	def name(card):
-		values = {1:'A', 2:'2', 3:'3', 4:'4', 5:'5', 6:'6', 7:'7', 8:'8', 9:'9', 10:'10', 11:'J', 12:'Q', 13:'K'}
+	def name(card)->str:
+		values = {1:'A', 2:'2', 3:'3', 4:'4', 5:'5', 6:'6', 7:'7', 8:'8', 9:'9', 10:'T', 11:'J', 12:'Q', 13:'K'}
 		suits = {'spade':'♤','heart':'♥','club':'♧','diamond':'♦'}
 		return values.get(card.value.value) + suits.get(card.suit.value)
 
 	# check if two cards are the same
-	def __eq__(card, otherCard):
+	def __eq__(card, otherCard)->bool:
 		return card.value == otherCard.value & card.suit == otherCard.suit
 
-	# print card name and value when using print(card)
-	def __repr__(card):
+	# print card details when using print(card) or str(card)
+	def __repr__(card)->str:
 		# return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
 		# return f'{card.value.name} of {card.suit.name}S' if card.face else '?'
-		return card.name if card.face else '_'
+		return ('░' if card.face else '█') + card.name + f' ({card.x:.1f}, {card.y:.1f} | {card.r:.1f})'
+
+	def display(card)->str:
+		return card.name if card.face else ' '
 
 
 # testing

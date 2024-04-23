@@ -25,9 +25,17 @@ playstacks = [p1, p2, p3, p4, p5, p6, p7]
 h1 = Stack(ruleFunc = handrule)
 h2 = Stack(ruleFunc = handrule)
 
-deck = Stack(x_pos = (0,1,-0.04), y_pos = (0,0.1), newDeck = True)
-
+#	generate new deck, shuffle, and deal
+deck = Stack(newDeck = True)
+deck.shuffle()
+#	for playstack number n, deal n cards. Flip the topmost card faceup
+for i in range(len(playstacks)):
+	for j in range(i+1):
+		playstacks[i].append(deck.pop())
+	playstacks[i].move(i*playstacks[i][0].width)
+	playstacks[i].tidy()
+	playstacks[i][-1].flip()
 
 #	testing
-# for c in deck.cards:
-# 	print(c.pos)
+# for s in playstacks:
+# 	print(s)
