@@ -61,7 +61,7 @@ class Value(IntEnum):
 #	f: is the card face-up (boolean)
 #
 class Card:
-	def __init__(card, value, suit, position=(0,0,0), faceUp=False, height=70, width=50):
+	def __init__(card, value, suit, position=(0,0,0), faceUp:bool=False, width:float=50, height:float=70):
 		card._val = Value(value)
 		card._suit = Suit(suit)
 		card.h = height
@@ -118,23 +118,24 @@ class Card:
 		suits = {'spade':'♤','heart':'♥','club':'♧','diamond':'♦'}
 		return values.get(card.value.value) + suits.get(card.suit.value)
 
+	def display(card)->str:
+		return card.name if card.face else ' '
+
 	# check if two cards are the same
 	def __eq__(card, otherCard)->bool:
 		return card.value == otherCard.value & card.suit == otherCard.suit
 
-	# print card details when using print(card) or str(card)
-	def __repr__(card)->str:
+	def __str__(card)->str:
 		# return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'
 		# return f'{card.value.name} of {card.suit.name}S' if card.face else '?'
 		return ('░' if card.face else '█') + card.name + f' ({card.x:.1f}, {card.y:.1f} | {card.r:.1f})'
 
-	def display(card)->str:
-		return card.name if card.face else ' '
-
+	def __repr__(card)->str:
+		return f'Card(value={card.value}, suit="{card.suit}", position={card.pos}, faceUp={card.face}, width={card.width}, height={card.height})'
 
 # testing
 # c = Card(4,'s')
-# print(c.face)
+# print(repr(c))
 # c.flip()
 # print(c.face)
 # print(c)

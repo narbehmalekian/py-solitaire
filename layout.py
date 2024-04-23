@@ -35,7 +35,9 @@ for i in range(len(playstacks)):
 	playstacks[i].move(i*playstacks[i][0].width)
 	playstacks[i].tidy()
 	playstacks[i][-1].flip()
+for c in deck:
+	h1.append(deck.pop())
 
 #	testing
-# for s in playstacks:
-# 	print(s)
+for s in playstacks:
+	print(s)

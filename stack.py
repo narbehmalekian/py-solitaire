@@ -75,18 +75,17 @@ class Stack:
 				c = stack.cards[cardIndex]
 				c.pos = c.pos[:i] + (result,) + c.pos[i+1:]
 
+	#	list-like methods for convenience
 	def pop(stack)->Card:
 		return stack.cards.pop()
-
 	def __getitem__(stack, i:int)->Card:
 		return stack.cards[i]
-
 	def __len__(stack):
 		return len(stack.cards)
-
+	#	use append to forcibly add a card to the stack
 	def append(stack, moreCards):
 		stack.cards.append(moreCards)
-
+	# use stack + card to add a card to the stack only if the card follows the ruleFunc
 	def __add__(stack, *moreCards, tidy=True):
 		for item in moreCards:
 
@@ -120,18 +119,22 @@ class Stack:
 			stack.cards = stack.cards[:len(stack)-n]
 		return Stack(cards)
 
-	def __repr__(stack):
-		return f'Stack of {len(stack.cards)}:\n'+'\n'.join([card.__repr__() for card in stack.cards])+'\n'
+	def __str__(stack):
+		return f'Stack of {len(stack.cards)}:\n'+'\n'.join([str(card) for card in stack.cards])+'\n'
 
+	#	does not represent ruleFunc
+	def __repr__(stack):
+		return f'Stack({stack.cards}, x_pos={stack.x}, y_pos={stack.y}, rot={stack.r}) # ruleFunc not included'
 
 #	testing
 # s = Stack(Card(4,"s"), Card(1,"c"))
 # s += Card(1,'s')
 # s += Stack(Card(2,'s'),Card(3,'s'))
+# print(repr(s))
+
 # t = Stack(Card(7,'dia'), x_pos=3, y_pos=(2,1))
 # print(t.x)
 
-#	more testing
 # homerule = lambda s, c : (s.cards[-1].suit == c.suit) & (s.cards[-1].value + 1 == c.value)
 # newStack = Stack(Card("a", "s",faceUp=True), ruleFunc = homerule)
 # print(newStack)
@@ -141,5 +144,6 @@ class Stack:
 # newStack + Card(4,"d",faceUp=True)
 # newStack + Card(4,"s",faceUp=True)
 # print(newStack)
+
 
 #	author: Narbeh Malekian
