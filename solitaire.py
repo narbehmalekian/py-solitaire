@@ -26,62 +26,48 @@ window = tk.Tk()
 window.geometry('700x400')
 window.title("Python Solitaire")
 
-
-# # Create the top frame (contains UI such as moves, time, etc.)
-# top_frame = tk.LabelFrame(window, text="Info", height=40, width=400)
-
-# timer_label = tk.Label(top_frame, text="Time: ")
-# timer_label.grid(row=0, column=0, padx=10)
-
-# moves_label = tk.Label(top_frame, text="Moves: ")
-# moves_label.grid(row=0, column=1, padx=10)
-
-# score_label = tk.Label(top_frame, text="Score: ")
-# score_label.grid(row=0, column=2, padx=10)
-
-# top_frame.pack()
-
 # Create the board (contains the rest of the game)
 board = tk.Frame(window, width=700, height=400)
-# print(str(board.winfo_reqwidth()) + "x" + str(board.winfo_reqheight()))
+board_width = board.winfo_reqwidth()
+board_height = board.winfo_reqheight()
 
 # Create the top-left-side of the board (contains the stock and waste stacks)
 stock_label = tk.Label(board, text="Stockpile")
-stock_label.place(x=board.winfo_reqwidth()*0.1, y=board.winfo_reqheight()*0.1)
-stock.x = (board.winfo_reqwidth()*0.1, 0)
-stock.y = (board.winfo_reqheight()*0.15, 0)
+stock_label.place(x=board_width*0.1, y=board_height*0.1)
+stock.x = (board_width*0.1, 0)
+stock.y = (board_height*0.15, 0)
 stock.tidy()
 renderStack(stock, board)
 
 waste_label = tk.Label(board, text="Waste Pile")
-waste_label.place(x=board.winfo_reqwidth()*0.2, y=board.winfo_reqheight()*0.1)
-waste.x = (board.winfo_reqwidth()*0.2, 0)
-waste.y = (board.winfo_reqheight()*0.15, 0)
+waste_label.place(x=board_width*0.2, y=board_height*0.1)
+waste.x = (board_width*0.2, 0)
+waste.y = (board_height*0.15, 0)
 waste.tidy()
 renderStack(waste, board)
 
 # Create the right-side of the board (contains the foundation stacks)
 foundation_label = tk.Label(board, text="Foundation Piles")
-foundation_label.place(x=board.winfo_reqwidth()*0.6, y=board.winfo_reqheight()*0.1)
+foundation_label.place(x=board_width*0.6, y=board_height*0.1)
 
 foundation_spacing = 0
 for stack in homestacks:
-    stack.x = (board.winfo_reqwidth()*0.6 + foundation_spacing, 0)
-    stack.y = (board.winfo_reqheight()*0.15, 10)
+    stack.x = (board_width*0.6 + foundation_spacing, 0)
+    stack.y = (board_height*0.15, 10)
     stack.tidy()
-    foundation_spacing = foundation_spacing + board.winfo_reqwidth()*0.1
+    foundation_spacing = foundation_spacing + board_width*0.1
     renderStack(stack, board)
 
 # Create the center/bottom-side of the board (tablaeu)
 tableau_label = tk.Label(board, text="Tableau")
-tableau_label.place(x=board.winfo_reqwidth()*0.5, y=board.winfo_reqheight()*0.4)
+tableau_label.place(x=board_width*0.5, y=board_height*0.4)
 
 talbeau_spacing = 0
 for stack in playstacks:
-    stack.x = (board.winfo_reqwidth()*0.2 + talbeau_spacing, 0)
-    stack.y = (board.winfo_reqheight()*0.5, 10)
+    stack.x = (board_width*0.2 + talbeau_spacing, 0)
+    stack.y = (board_height*0.5, 10)
     stack.tidy()
-    talbeau_spacing = talbeau_spacing + board.winfo_reqwidth()*0.1
+    talbeau_spacing = talbeau_spacing + board_width*0.1
     renderStack(stack, board)
 
 
@@ -115,8 +101,3 @@ window.bind('<Key>', on_key_press)
 # main loop
 board.place(x=0,y=0)
 window.mainloop()
-
-# TODO: 
-#   * add padding to each of the frames where necessary
-#   * make the timer work
-#   * use variables for each of the pile sizes (length and width) instead of hardcoding, also lets you change them elsewhere
