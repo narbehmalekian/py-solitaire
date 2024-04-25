@@ -97,7 +97,7 @@ class Stack:
 				stack.cards += item.cards
 
 			# add list of cards to stack
-			elif isinstace(item, list):
+			elif isinstance(item, list):
 				followsRule = True
 				for i in range(item-1):
 					stack.ruleFunc(item[i+1], Stack(item[i]))
