@@ -231,10 +231,12 @@ def play():
 				print('That\'s not a valid move!\n')
 		else:
 			print('That command is not recognized. Please try again.\nFor possible commands, type help\n')
+	#	game is won
 	showgame()
-	c = True if ((time.time()-t)//60<1) else False # check if user cheated
+	end = time.time()
+	c = True if ((end-t)//60<1) else False # check if user cheated
 	q = '\"' # double quote string bc fstring complains about the backslash
-	print(f'You {"cheated and "+q if c else ""}won{q if c else ""} with {ctmoves} moves in {int((time.time()-t)//60)} min, {int((time.time()-t)%60)} sec!\n')
+	print(f'You {"cheated and "+q if c else ""}won{q if c else ""} with {ctmoves} moves in {int((end-t)//60)} min, {int((end-t)%60)} sec!\n')
 	input("Press Enter to exit")
 
 play()

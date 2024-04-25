@@ -1,8 +1,14 @@
 import tkinter as tk
-from card import *
-from stack import *
-from layout import *
+from gameFuncs import *
 # from PIL import Image, ImageTk
+
+#
+#   layout.py is now gameFuncs.py
+#   global varable have been moved to globals.py
+#   the other files are imported through the gameFuncs file
+#   Use the startGame() function to reset variables, start the game timer, and set the game state
+#
+startGame()
 
 # function to select a card from button
 def selectCard(card):
@@ -51,7 +57,7 @@ foundation_label = tk.Label(board, text="Foundation Piles")
 foundation_label.place(x=board_width*0.6, y=board_height*0.1)
 
 foundation_spacing = 0
-for stack in homestacks:
+for stack in homeStacks:
     stack.x = (board_width*0.6 + foundation_spacing, 0)
     stack.y = (board_height*0.15, 10)
     stack.tidy()
@@ -63,7 +69,7 @@ tableau_label = tk.Label(board, text="Tableau")
 tableau_label.place(x=board_width*0.5, y=board_height*0.4)
 
 talbeau_spacing = 0
-for stack in playstacks:
+for stack in playStacks:
     stack.x = (board_width*0.2 + talbeau_spacing, 0)
     stack.y = (board_height*0.5, 10)
     stack.tidy()

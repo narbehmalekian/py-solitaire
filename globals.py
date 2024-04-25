@@ -11,7 +11,7 @@ h1 = Stack(ruleFunc = homerule)
 h2 = Stack(ruleFunc = homerule)
 h3 = Stack(ruleFunc = homerule)
 h4 = Stack(ruleFunc = homerule)
-homestacks = [h1, h2, h3, h4]
+homeStacks = [h1, h2, h3, h4]
 
 p1 = Stack(ruleFunc = playrule)
 p2 = Stack(ruleFunc = playrule)
@@ -20,26 +20,24 @@ p4 = Stack(ruleFunc = playrule)
 p5 = Stack(ruleFunc = playrule)
 p6 = Stack(ruleFunc = playrule)
 p7 = Stack(ruleFunc = playrule)
-playstacks = [p1, p2, p3, p4, p5, p6, p7]
+playStacks = [p1, p2, p3, p4, p5, p6, p7]
 
 stock = Stack(ruleFunc = handrule)
 waste = Stack(ruleFunc = handrule)
 
-#	generate new deck, shuffle, and deal
-deck = Stack(newDeck = True)
-deck.shuffle()
-#	for playstack number n, deal n cards. Flip the topmost card faceup
-for i in range(len(playstacks)):
-	for j in range(i+1):
-		playstacks[i].append(deck.pop())
-	playstacks[i].move(i*playstacks[i][0].width)
-	playstacks[i].tidy()
-	playstacks[i][-1].flip()
-for c in deck:
-	stock.append(deck.pop())
+selectedCard = None
+selectedStack = None
 
-#	testing
-# for s in playstacks:
-# 	print(s)
+moves = 0
+startTime = 0
+endTime = 0
 
-#	author: Narbeh Malekian
+#	point values for actions in the game
+points = {
+	'move': -3,			#	making a card move
+	'home': 20,			#	moving a card into it's home stack
+	'hand': -1,			#	cycling one card from the stock to the waste
+	'per_second': -1	#	spending one second of time playing
+}
+
+score = 0
