@@ -22,8 +22,8 @@ p6 = Stack(ruleFunc = playrule)
 p7 = Stack(ruleFunc = playrule)
 playstacks = [p1, p2, p3, p4, p5, p6, p7]
 
-h1 = Stack(ruleFunc = handrule)
-h2 = Stack(ruleFunc = handrule)
+stock = Stack(ruleFunc = handrule)
+waste = Stack(ruleFunc = handrule)
 
 #	generate new deck, shuffle, and deal
 deck = Stack(newDeck = True)
@@ -36,8 +36,10 @@ for i in range(len(playstacks)):
 	playstacks[i].tidy()
 	playstacks[i][-1].flip()
 for c in deck:
-	h1.append(deck.pop())
+	stock.append(deck.pop())
 
 #	testing
-for s in playstacks:
-	print(s)
+# for s in playstacks:
+# 	print(s)
+
+#	author: Narbeh Malekian

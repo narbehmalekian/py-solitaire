@@ -5,10 +5,9 @@ import math, random
 #	helper func for setting position and rotation of the stack
 #	converts transform values into tuples
 #	num: the number or tuple to be processed into a tuple of numbers
-#	offset: the second element in the tuple
-def num2tuple(num, offset=0):
+def num2tuple(num):
 	if isinstance(num, (int, float)):
-		tup = (num, offset)
+		tup = (num,)
 	elif isinstance(num, tuple):
 		for n in num:
 			if not isinstance(n, (int,float)):
@@ -21,8 +20,13 @@ def num2tuple(num, offset=0):
 #
 #	Stack Object
 #	cards: cards to be stacked (Card objects, or list of Card objects)
-#	x/y_pos: position of the stack in the window
+#	x_pos, y_pos: position of the stack in the window
 #		use a tuple to define custom stack shape
+#		4 or (4,0) ->	cards at 4, 4, 4, 4 ...
+#		(3, 2) -> 		cards at 3, 5, 7, 9 ...
+#						   as in 3 +2 +2 +2 ...
+#		(0, 1, 1) ->	cards at 0, 1, 3, 7 ...
+#						   as in 0 +1 +2 +3 ...
 #	rot: rotation of the stack in the window
 #		use a tuple to define custom stack shape
 #
@@ -37,7 +41,7 @@ class Stack:
 		ruleFunc: Callable = lambda a, b: True,
 		newDeck: bool = False
 	):
-		stack.x = num2tuple(x_pos, 0.1)
+		stack.x = num2tuple(x_pos)
 		stack.y = num2tuple(y_pos)
 		stack.r = num2tuple(rot)
 		if newDeck:
@@ -75,7 +79,7 @@ class Stack:
 				c = stack.cards[cardIndex]
 				c.pos = c.pos[:i] + (result,) + c.pos[i+1:]
 
-	#	list-like methods for convenience
+	#	list-like methods for stack using the list stack.cards
 	def pop(stack)->Card:
 		return stack.cards.pop()
 	def __getitem__(stack, i:int)->Card:

@@ -1,3 +1,11 @@
+#
+#
+#	DO NOT USE THIS FILE FOR DEVELOPMENT.
+#
+#	IT IS A TEST FILE AS THE NAME SUGGESTS.
+#
+#
+
 from card import *
 from sys import platform
 import random, time, os
@@ -38,12 +46,6 @@ for i in range(0,7):
 	for j in range(i+1):
 		playstacks[i].append(newDeck.pop())
 	playstacks[i][i].flip()
-
-# testing
-# stack1.append(Card(2,'d'))
-# stack1[-1].flip()
-# stack2.append(Card(1,"d"))
-# stack2[-1].flip()
 
 for card in newDeck:
 	hand.append(card)
