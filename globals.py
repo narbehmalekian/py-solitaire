@@ -1,5 +1,31 @@
 from stack import *
 
+#
+#	GAME STATE
+#
+
+class State(StrEnum):
+	START = 'start'
+	PLAY = 'play'
+	WON = 'won'
+	# check first letter of string to infer intended gamestate
+	@classmethod
+	def _missing_(cls, value):
+		return{
+			's': cls.START,
+			'p': cls.PLAY,
+			'w': cls.WON
+		}.get(value.lower()[0:1], None)
+
+gameState = State('start')
+
+selectedCard = None
+selectedStack = None
+
+#
+#	GAME BOARD
+#
+
 #	define a set of rules for the stack layout in a game
 homerule = lambda s, c : s[-1].suit == c.suit & s[-1].value + 1 == c.value if s.cards else c.value == 1
 playrule = lambda s, c : s[-1].color != c.color & s[-1].value - 1 == c.value
@@ -25,19 +51,21 @@ playStacks = [p1, p2, p3, p4, p5, p6, p7]
 stock = Stack(ruleFunc = handrule)
 waste = Stack(ruleFunc = handrule)
 
-selectedCard = None
-selectedStack = None
+allStacks = [s for l in [playStacks, homeStacks, [stock, waste]] for s in l]
 
-moves = 0
+#
+#	GAME SCORING
+#
+
 startTime = 0
 endTime = 0
+moves = 0
+score = 0
 
-#	point values for actions in the game
+#	point value assignments for actions in the game
 points = {
 	'move': -3,			#	making a card move
 	'home': 20,			#	moving a card into it's home stack
 	'hand': -1,			#	cycling one card from the stock to the waste
 	'per_second': -1	#	spending one second of time playing
 }
-
-score = 0

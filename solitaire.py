@@ -8,6 +8,9 @@ from gameFuncs import *
 #   the other files are imported through the gameFuncs file
 #   Use the startGame() function to reset variables, start the game timer, and set the game state
 #
+#   You can remove this comment and move startGame() where it is appropriate
+#       -Narbeh
+#
 startGame()
 
 # function to select a card from button

@@ -10,21 +10,7 @@ def select(selection, multiple=False):
 	else:
 		selectedCard = None
 
-class State(StrEnum):
-	START = 'start'
-	PLAY = 'play'
-	WON = 'won'
-	# check first letter of string to infer intended gamestate
-	@classmethod
-	def _missing_(cls, value):
-		return{
-			's': cls.START,
-			'p': cls.PLAY,
-			'w': cls.WON
-		}.get(value.lower()[0:1], None)
-gameState = State('start')
-
-def checkWon(){
+def checkWon():
 	for stack in playStacks:
 		if stack:
 			return False
@@ -37,17 +23,19 @@ def checkWon(){
 			return False
 	endTime = time.time()
 	return True
-}
 
 def gameTime():
-	if gameState = State('start'):
+	if gameState == State('start'):
 		return 0
-	if gameState = State('play'):
+	if gameState == State('play'):
 		return time.time() - startTime
-	if gameState = State('won'):
+	if gameState == State('won'):
 		return endTime - startTime
 
 def startGame():
+	for s in allStacks:
+		s.dump()
+
 	#	generate new deck, shuffle, and deal
 	deck = Stack(newDeck = True)
 	deck.shuffle()
@@ -63,11 +51,12 @@ def startGame():
 		stock.append(deck.pop())
 
 	gameState = State('play')
-
 	startTime = time.time()
+	moves = 0
+	score = 0
 
 #	testing
-# for s in playstacks:
+# for s in playStacks:
 # 	print(s)
 
 #	author: Narbeh Malekian

@@ -67,6 +67,9 @@ class Stack:
 		if tidy:
 			stack.tidy()
 
+	def dump(stack):
+		stack.cards = []
+
 	#	positions cards according to the stack's arrangement
 	def tidy(stack):
 		for cardIndex in range(len(stack.cards)):
@@ -128,7 +131,7 @@ class Stack:
 
 	#	does not represent ruleFunc
 	def __repr__(stack):
-		return f'Stack({stack.cards}, x_pos={stack.x}, y_pos={stack.y}, rot={stack.r}) # ruleFunc not included'
+		return f'Stack({stack.cards}, x_pos={stack.x}, y_pos={stack.y}, rot={stack.r}) # ruleFunc not included\n'
 
 #	testing
 # s = Stack(Card(4,"s"), Card(1,"c"))
