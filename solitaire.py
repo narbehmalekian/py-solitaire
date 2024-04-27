@@ -13,23 +13,25 @@ def renderCard(card, location):
     rendered_card.place(relx=card.x, rely=card.y)
 
 # render a stack of cards
-def renderStack(stack, stack_location):
-    if stack.__len__ == 1:
-        print("empty stack")
-    for card in stack:
-        renderCard(card, stack_location)
+def renderStack(stack, stack_location): 
+    if len(stack) == 0: # empty stack (no cards)
+        empty_stack = tk.Button(stack_location, text="?", width=4, height=3, relief="groove", command=lambda: select(stack))
+        empty_stack.place(relx=stack.x[0], rely=stack.y[0])
+    else:
+        for card in stack:
+            renderCard(card, stack_location)
 
 # render each of the labels in the board
 def renderLabels():
     # stock label
     stock_label = tk.Label(board, text="Stockpile", bg="green")
-    stock_label.place(relx=0.1, rely=0.1)
+    stock_label.place(relx=0.09, rely=0.05)
     # waste label
     waste_label = tk.Label(board, text="Waste Pile", bg="green")
-    waste_label.place(relx=0.2, rely=0.1)
+    waste_label.place(relx=0.19, rely=0.05)
     # foundation label
     foundation_label = tk.Label(board, text="Foundation Piles", bg="green")
-    foundation_label.place(relx=0.6, rely=0.1)
+    foundation_label.place(relx=0.6, rely=0.05)
     # tableau label
     tableau_label = tk.Label(board, text="Tableau", bg="green")
     tableau_label.place(relx=0.5, rely=0.4)
@@ -44,7 +46,7 @@ def renderBoard():
     # set the relative position of the foundation stacks/home stacks
     foundation_spacing = 0
     for stack in homeStacks:
-        stack.x = (0.6 + foundation_spacing, 0)
+        stack.x = (0.5 + foundation_spacing, 0)
         stack.y = (0.15, 0.01)
         stack.tidy()
         foundation_spacing = foundation_spacing + 0.1 # <- change this value if needed
