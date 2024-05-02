@@ -51,7 +51,13 @@ class Stack:
 			stack.cards = [card for group in cards for card in (group if isinstance(group, list) else [group]) if isinstance(card, Card)]
 		if tidy:
 			stack.tidy()
+		else:
+			stack.adoptChildren()
 		stack.rule = ruleFunc
+
+	def adoptChildren(stack):
+		for card in stack.cards:
+			card.parent = stack
 
 	def shuffle(stack):
 		random.shuffle(stack.cards)
@@ -81,6 +87,7 @@ class Stack:
 					result += math.comb(cardIndex, comp) * tup[comp]
 				c = stack.cards[cardIndex]
 				c.pos = c.pos[:i] + (result,) + c.pos[i+1:]
+		stack.adoptChildren()
 
 	#	list-like methods for stack using the list stack.cards
 	def pop(stack)->Card:

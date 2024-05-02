@@ -75,6 +75,7 @@ class Card:
 			if not isinstance(position[i], (int,float)):
 				raise TypeError('Card position values must be numeric, in the form (x, y, rotation). Got: ', position)
 		card.pos = position
+		card.stack = None
 
 	@property
 	def x(card)->float:
@@ -107,6 +108,10 @@ class Card:
 	@property
 	def width(card):
 		return card.w
+
+	@property
+	def parent(card):
+		return card.stack
 
 	def flip(card):
 		card.face = not card.face

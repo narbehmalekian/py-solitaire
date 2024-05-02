@@ -1,10 +1,32 @@
 from globals import *
 import time
 
-#	TODO: implement multiple selection
+#	TODO: use card.parent
 def select(selection, multiple=False):
 	if isinstance(selection, Card):
+
 		selectedCard = selection
+
+		#	find containing stack
+		found = False
+		tempCards = []
+		for stack in playStacks:
+			for card in stack:
+				if !found & card == selectedCard:
+					found = True
+				if found:
+					tempCards + card
+			for i in tempCards:
+				stack.pop()
+		for stack in homeStacks:
+			for card in stack:
+				if card == selectedCard:
+					tempCards + card
+					stack.pop()
+		if waste[-1] == selectedCard:
+
+		tempStack = Stack(tempCards)
+
 	elif isinstance(selection, Stack):
 		selectedStack = selection
 	else:

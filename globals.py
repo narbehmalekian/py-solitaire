@@ -21,6 +21,7 @@ gameState = State('start')
 
 selectedCard = None
 selectedStack = None
+tempStack = None
 
 #
 #	GAME BOARD
