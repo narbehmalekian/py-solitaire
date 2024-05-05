@@ -1,6 +1,15 @@
 from stack import *
 
 #
+#	THEMING
+#
+
+headerColor = '#102'
+bgColor = '#213'
+cardColor = '#68F'
+textColor = '#DDF'
+
+#
 #	GAME STATE
 #
 

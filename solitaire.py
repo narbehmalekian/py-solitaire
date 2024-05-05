@@ -8,7 +8,7 @@ def renderCard(card, location):
         rendered_card = tk.Button(location, text=card.name, width=4, height=3, relief="groove", command=lambda: select(card))
     else: # else render it as a Frame (TODO: make back of card nicer)
         rendered_card = tk.Frame(location, borderwidth=2, width=card.w, height=card.h, relief="groove")
-        card_label = tk.Label(rendered_card, text='', justify="center", wraplength=40, height=3, width=4, bg="blue")
+        card_label = tk.Label(rendered_card, text='', justify="center", wraplength=40, height=3, width=4, bg=cardColor, fg=textColor)
         card_label.pack()
     rendered_card.place(relx=card.x, rely=card.y)
 
@@ -24,16 +24,16 @@ def renderStack(stack, stack_location):
 # render each of the labels in the board
 def renderLabels():
     # stock label
-    stock_label = tk.Label(board, text="Stockpile", bg="green")
+    stock_label = tk.Label(board, text="Stockpile", bg=bgColor, fg=textColor)
     stock_label.place(relx=0.09, rely=0.05)
     # waste label
-    waste_label = tk.Label(board, text="Waste Pile", bg="green")
+    waste_label = tk.Label(board, text="Waste Pile", bg=bgColor, fg=textColor)
     waste_label.place(relx=0.19, rely=0.05)
     # foundation label
-    foundation_label = tk.Label(board, text="Foundation Piles", bg="green")
+    foundation_label = tk.Label(board, text="Foundation Piles", bg=bgColor, fg=textColor)
     foundation_label.place(relx=0.6, rely=0.05)
     # tableau label
-    tableau_label = tk.Label(board, text="Tableau", bg="green")
+    tableau_label = tk.Label(board, text="Tableau", bg=bgColor, fg=textColor)
     tableau_label.place(relx=0.5, rely=0.4)
 
 # set the position of every stack, then render all of them
@@ -79,21 +79,21 @@ def initializeNewGame():
 window = tk.Tk()
 window.geometry("700x400")
 window.title("Python Solitaire")
-window.configure(bg="light goldenrod")
+window.configure(bg=headerColor)
 
 # create the game board
 global board_width, board_height
 board_width = 700
 board_height = 400
-board = tk.Frame(window, width=board_width, height=board_height, bg="green")
+board = tk.Frame(window, width=board_width, height=board_height, bg=bgColor)
 
 # create the top UI
-top_frame = tk.LabelFrame(window, text="Info", height=40, width=600, bg="light goldenrod")
-timer_label = tk.Label(top_frame, text=("Time: "), bg="light goldenrod")
+top_frame = tk.LabelFrame(window, text="Info", height=40, width=600, bg=headerColor, fg=textColor)
+timer_label = tk.Label(top_frame, text=("Time: "), bg=headerColor, fg=textColor)
 timer_label.grid(row=0, column=0, padx=10)
-moves_label = tk.Label(top_frame, text="Moves: ", bg="light goldenrod")
+moves_label = tk.Label(top_frame, text="Moves: ", bg=headerColor, fg=textColor)
 moves_label.grid(row=0, column=1, padx=10)
-score_label = tk.Label(top_frame, text="Score: ", bg="light goldenrod")
+score_label = tk.Label(top_frame, text="Score: ", bg=headerColor, fg=textColor)
 score_label.grid(row=0, column=2, padx=10)
 top_frame.pack()
 
