@@ -62,8 +62,8 @@ class Value(IntEnum):
 #
 class Card:
 	def __init__(card, value, suit, position=(0,0,0), faceUp:bool=False, width:float=50, height:float=70):
-		card._val = Value(value)
-		card._suit = Suit(suit)
+		card.__val = Value(value)
+		card.__suit = Suit(suit)
 		card.h = height
 		card.w = width
 		if not isinstance(faceUp, bool):
@@ -75,7 +75,7 @@ class Card:
 			if not isinstance(position[i], (int,float)):
 				raise TypeError('Card position values must be numeric, in the form (x, y, rotation). Got: ', position)
 		card.pos = position
-		card.stack = None
+		card.parent = None
 
 	@property
 	def x(card)->float:
@@ -95,11 +95,11 @@ class Card:
 
 	@property
 	def value(card)->Value:
-		return card._val
+		return card.__val
 
 	@property
 	def suit(card)->Suit:
-		return card._suit
+		return card.__suit
 
 	@property
 	def height(card)->float:
@@ -108,10 +108,6 @@ class Card:
 	@property
 	def width(card):
 		return card.w
-
-	@property
-	def parent(card):
-		return card.stack
 
 	def flip(card):
 		card.face = not card.face
@@ -128,7 +124,11 @@ class Card:
 
 	# check if two cards are the same
 	def __eq__(card, otherCard)->bool:
-		return card.value == otherCard.value & card.suit == otherCard.suit
+		# return (card.value == otherCard.value) & (card.suit == otherCard.suit)
+		#	above only checks if the "other card" has the same rank and suit
+		#	(the same card from different decks would be equal by this definition)
+		#	below checks if the "other card" is in fact, itself
+		return card is otherCard
 
 	def __str__(card)->str:
 		# return f'{card.value.name} of {card.suit.name}S facing {"UP" if card.face else "DOWN"}'

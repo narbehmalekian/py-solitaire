@@ -54,6 +54,7 @@ class Stack:
 		else:
 			stack.adoptChildren()
 		stack.rule = ruleFunc
+		stack.selected = []
 
 	def adoptChildren(stack):
 		for card in stack.cards:
@@ -89,6 +90,27 @@ class Stack:
 				c.pos = c.pos[:i] + (result,) + c.pos[i+1:]
 		stack.adoptChildren()
 
+	#	stores a list of selected cards
+	def select(stack, *cards):
+		def selectCard(card):
+			if isinstance(card, Card):
+				if card in stack:
+					stack.selected += [card]
+				else:
+					print(f'The card:\n{card}\nis not in this stack.')
+			else:
+				print(f"This stack:\n{stack}\ntried to select\n{card}\n...ignoring non-card object.")
+		#	handles cards mixed with lists of cards
+		for item in cards:
+			if isinstance(item, list):
+				for card in item:
+					selectCard(card)
+			else:
+				selectCard(item)
+
+	def deselect(stack):
+		stack.selected = []
+
 	#	list-like methods for stack using the list stack.cards
 	def pop(stack)->Card:
 		return stack.cards.pop()
@@ -96,6 +118,11 @@ class Stack:
 		return stack.cards[i]
 	def __len__(stack):
 		return len(stack.cards)
+	def __contains__(stack, card):
+		for c in stack.cards:
+			if card is c:
+				return True
+		return False
 	#	use append to forcibly add a card to the stack
 	def append(stack, moreCards):
 		stack.cards.append(moreCards)
@@ -138,13 +165,18 @@ class Stack:
 
 	#	does not represent ruleFunc
 	def __repr__(stack):
-		return f'Stack({stack.cards}, x_pos={stack.x}, y_pos={stack.y}, rot={stack.r}) # ruleFunc not included\n'
+		return f'Stack({stack.cards}, x_pos={stack.x}, y_pos={stack.y}, rot={stack.r})'
 
 #	testing
-# s = Stack(Card(4,"s"), Card(1,"c"))
+# c1 = Card(4,"s")
+# c2 = Card(1,"c")
+# s = Stack(c1, c2)
 # s += Card(1,'s')
 # s += Stack(Card(2,'s'),Card(3,'s'))
-# print(repr(s))
+# print(s)
+# s.select(c1, c2)
+# print(Stack(s.selected))
+# print(s[1:])
 
 # t = Stack(Card(7,'dia'), x_pos=3, y_pos=(2,1))
 # print(t.x)

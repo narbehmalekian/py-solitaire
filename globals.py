@@ -27,7 +27,7 @@ tempStack = None
 #	GAME BOARD
 #
 
-#	define a set of rules for the stack layout in a game
+#	define the rules for moving cards to each type of stack in solitaire
 homerule = lambda s, c : s[-1].suit == c.suit & s[-1].value + 1 == c.value if s.cards else c.value == 1
 playrule = lambda s, c : s[-1].color != c.color & s[-1].value - 1 == c.value
 handrule = lambda s, c : False
@@ -70,3 +70,5 @@ points = {
 	'hand': -1,			#	cycling one card from the stock to the waste
 	'per_second': -1	#	spending one second of time playing
 }
+
+#	author: Narbeh Malekian

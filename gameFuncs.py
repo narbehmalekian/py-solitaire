@@ -2,35 +2,20 @@ from globals import *
 import time
 
 #	TODO: use card.parent
-def select(selection, multiple=False):
+def select(selection): # TODO: implement multiple selection
+
 	if isinstance(selection, Card):
-
-		selectedCard = selection
-
-		#	find containing stack
-		found = False
-		tempCards = []
-		for stack in playStacks:
-			for card in stack:
-				if !found & card == selectedCard:
-					found = True
-				if found:
-					tempCards + card
-			for i in tempCards:
-				stack.pop()
-		for stack in homeStacks:
-			for card in stack:
-				if card == selectedCard:
-					tempCards + card
-					stack.pop()
-		if waste[-1] == selectedCard:
-
-		tempStack = Stack(tempCards)
+		parent = selection.parent
+		parent.select([parent[parent.index(selection):]])
 
 	elif isinstance(selection, Stack):
 		selectedStack = selection
 	else:
 		selectedCard = None
+
+def deselect():
+	for stack in allStacks:
+		stack.deselect()
 
 def checkWon():
 	for stack in playStacks:

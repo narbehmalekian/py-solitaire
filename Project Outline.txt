@@ -6,29 +6,13 @@ Game Logic
 		✅ color
 		✅ value
 		✅ face up/down
-		position
+		✅ position
 
 	stack
-		offset for stacked card
-		stacking rules
-			open cards
-				red > black
-				black > red
-				value > value-1
-			home cards
-				empty > Ace
-				suit > suit
-				value > value+1
-			new stack
-				King
-			hand
-				closed stack > open stack
+		✅ offset for stacked card
+		✅ stacking rules
 
-	deal
-		shuffle
-		layout
-			consecutive stack sizes from 1 to 7
-		flip top card in each stack (optionally always flip to card)
+	✅ deal
 
 	win condition
 		all 4 suits in home stacks
