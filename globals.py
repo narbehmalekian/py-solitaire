@@ -10,7 +10,7 @@ cardColor = '#68F'
 textColor = '#DDF'
 # these are units of characters, not pixels
 cardWidth = 4
-cardHeight = 3
+cardHeight = 2
 
 #
 #	GAME STATE

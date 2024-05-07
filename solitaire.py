@@ -100,7 +100,6 @@ def playClick(stack, card):
         chosen = True
     elif chosen == True:
         num_cards = len(selectedStack) - selectedStack.cards.index(selectedCard) 
-        print(num_cards)
         moveCards(selectedStack, stack, num_cards) 
         chosen = False
 
@@ -237,7 +236,7 @@ moves_label = tk.Label(top_frame, text=f"Moves:{moves}", bg=headerColor, fg=text
 moves_label.grid(row=0, column=1, padx=10)
 score_label = tk.Label(top_frame, text=f"Score:{score}", bg=headerColor, fg=textColor)
 score_label.grid(row=0, column=2, padx=10)
-top_frame.pack()
+# top_frame.pack()
 
 # function to update the moves and score labels, can be called once every move
 def updateScore():
@@ -255,7 +254,7 @@ def howToPlay():
     popup_window.title("How to Play")
     
     # Create a label to display the message
-    label = tk.Label(popup_window, text="How to goes here") # TODO: write How to play
+    label = tk.Label(popup_window, text="To move cards, click a card, then a destination.") # TODO: write How to play
     label.pack(padx=20, pady=20)
 
     # Add a button to close the pop-up window
@@ -268,7 +267,7 @@ def about():
     popup_window.title("About")
     
     # Create a label to display the message
-    label = tk.Label(popup_window, text="About goes here") # TODO: write about
+    label = tk.Label(popup_window, text="by Logan Joven and Narbeh Malekian") # TODO: write about
     label.pack(padx=20, pady=20)
 
     # Add a button to close the pop-up window
@@ -293,7 +292,7 @@ def Cheat():
         print(f"Tableau {i + 1}:")
         print(stack)
 
-# Create the menu and functions (TODO: connect each menu option to an appropriate function)
+# Create the menu and functions
 menubar = tk.Menu(window)
 filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label="New Game", command=initializeNewGame)
@@ -308,36 +307,6 @@ helpmenu.add_command(label="Cheat", command=Cheat)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 window.config(menu=menubar)
-
-# helper function for debugging; should be removed in final product
-def on_key_press(event):
-    if event.keysym == '1': # check absolute position of pointer on board
-        x = event.x - board.winfo_x()
-        y = event.y - board.winfo_y()
-        print(f"Mouse Coordinates (relative to board): x={x}, y={y}")
-    elif event.keysym == '2': # check what the selected card is
-        print(f"Selected card: {selectedCard}, parent is {selectedCard.parent}")
-    elif event.keysym == '3': # check what the selected stack is
-        print(f"Selected stack: {str(selectedStack)}")
-    elif event.keysym == '4': # check board dimentions (not window)
-        print(f"Board Dimensions: {board.winfo_width()}x{board.winfo_height()}")
-    elif event.keysym == '5':
-        print(f"Chosen is: {chosen}")
-    elif event.keysym =='6':
-        testStack = Stack(ruleFunc=homerule)
-        print(testStack.rule)
-    elif event.keysym == '7':
-        global num_cards
-        num_cards = 2
-    elif event.keysym == 'r': # reload the board
-        for stack in allStacks:
-            stack.tidy()
-        clearBoard()
-        renderBoard()
-    elif event.keysym == 's': #show game state
-        print(f"Game state: {gameState}")
-# bind the functions to window
-window.bind('<Key>', on_key_press)
 
 # these functions should be called once at the start of the game
 updateTime() # doesn't work?
