@@ -1,21 +1,45 @@
 from globals import *
 import time
 
-#	TODO: use card.parent
-def select(selection): # TODO: implement multiple selection
-
-	if isinstance(selection, Card):
-		parent = selection.parent
-		parent.select([parent[parent.index(selection):]])
-
-	elif isinstance(selection, Stack):
-		selectedStack = selection
+def moveSelection(dest):
+	if (dest == waste) & (originStack == stock):
+		waste.append(stock[-1])
+		stock.pop()
+		waste[-1].flip()
+	elif dest.checkRule(dest, originStack.selected[0]):
+		for card in originStack.selected:
+			dest + card
+			originStack.pop()
 	else:
-		selectedCard = None
+		print('invalid move')
+	deselect()
 
 def deselect():
+	global originStack
+	originStack = None
 	for stack in allStacks:
 		stack.deselect()
+
+def select(selection): # TODO: implement multiple selection
+	global originStack
+	if isinstance(selection, Card):
+		dest = selection.parent
+		if originStack:
+			moveSelection(dest)
+		else:
+			originStack = selection.parent
+			originStack.select(originStack[originStack.index(selection):])
+	elif isinstance(selection, Stack):
+		if originStack:
+			moveSelection(selection)
+		elif selection == stock:
+			waste.flip()
+			stock.cards = waste.cards
+			waste.dump()
+		else:
+			deselect()
+	else:
+		deselect()
 
 def checkWon():
 	for stack in playStacks:
@@ -55,7 +79,7 @@ def startGame():
 		playStacks[i].tidy()
 		playStacks[i][-1].flip()
 	for c in deck:
-		stock.append(deck.pop())
+		stock.append(c)
 
 	gameState = State('play')
 	startTime = time.time()

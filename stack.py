@@ -77,6 +77,9 @@ class Stack:
 	def dump(stack):
 		stack.cards = []
 
+	def checkRule(stack, dest, card)->bool:
+		return stack.rule(dest, card)
+
 	#	positions cards according to the stack's arrangement
 	def tidy(stack):
 		for cardIndex in range(len(stack.cards)):
@@ -112,6 +115,8 @@ class Stack:
 		stack.selected = []
 
 	#	list-like methods for stack using the list stack.cards
+	def index(stack, card)->int:
+		return stack.cards.index(card)
 	def pop(stack)->Card:
 		return stack.cards.pop()
 	def __getitem__(stack, i:int)->Card:

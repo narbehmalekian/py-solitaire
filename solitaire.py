@@ -2,20 +2,41 @@ import tkinter as tk
 from gameFuncs import *
 # from PIL import Image, ImageTk
 
+def click(button):
+    if isinstance(button, Card):
+        card = button
+        if card.face:
+            select(card)
+        elif card.parent == stock:
+            select(card)
+            select(waste)
+        elif card == card.parent[-1]:
+            card.flip()
+    elif isinstance(button, Stack):
+        stack = button
+        if stack == stock:
+            select(stack)
+        elif stack == waste:
+            select(stock[-1])
+            select(waste)
+        else:
+            select(stack)
+    refresh()
+
 # render a single card, location is the frame it as attached to
 def renderCard(card, location):
     if card.face: # if card is faceUp, then render it as a button
-        rendered_card = tk.Button(location, text=card.name, width=4, height=3, relief="groove", command=lambda: select(card))
+        rendered_card = tk.Button(location, anchor='n', font=('Arial', 16), fg=card.color, text=card.name, command=lambda: click(card))
     else: # else render it as a Frame (TODO: make back of card nicer)
-        rendered_card = tk.Frame(location, borderwidth=2, width=card.w, height=card.h, relief="groove")
-        card_label = tk.Label(rendered_card, text='', justify="center", wraplength=40, height=3, width=4, bg=cardColor, fg=textColor)
-        card_label.pack()
+        rendered_card = tk.Button(location, borderwidth=2, width=4, height=3, bg=cardColor, command=lambda: click(card))
+        # card_label = tk.Label(rendered_card, text='', justify="center", wraplength=40, height=3, width=4, bg=cardColor, fg=textColor)
+        # card_label.pack()
     rendered_card.place(relx=card.x, rely=card.y)
 
 # render a stack of cards
-def renderStack(stack, stack_location): 
+def renderStack(stack, stack_location):
     if len(stack) == 0: # empty stack (no cards)
-        empty_stack = tk.Button(stack_location, text="?", width=4, height=3, relief="groove", command=lambda: select(stack))
+        empty_stack = tk.Button(stack_location, text="", width=4, height=3, bg=bgColor, command=lambda: click(stack))
         empty_stack.place(relx=stack.x[0], rely=stack.y[0])
     else:
         for card in stack:
@@ -55,7 +76,7 @@ def renderBoard():
     talbeau_spacing = 0
     for stack in playStacks:
         stack.x = (0.2 + talbeau_spacing, 0)
-        stack.y = (0.5, 0.025)
+        stack.y = (0.5, 0.03)
         talbeau_spacing = talbeau_spacing + 0.1
     # render all stacks
     for stack in allStacks:
@@ -68,12 +89,15 @@ def clearBoard():
     for widgets in board.winfo_children():
         widgets.destroy()
 
-# call once at the start of a game
-def initializeNewGame():
-    startGame()
+def refresh():
     clearBoard()
     renderLabels()
     renderBoard()
+
+# call once at the start of a game
+def initializeNewGame():
+    startGame()
+    refresh()
 
 # create the tkinter window
 window = tk.Tk()
@@ -84,7 +108,7 @@ window.configure(bg=headerColor)
 # create the game board
 global board_width, board_height
 board_width = 700
-board_height = 400
+board_height = 600
 board = tk.Frame(window, width=board_width, height=board_height, bg=bgColor)
 
 # create the top UI
@@ -136,3 +160,6 @@ initializeNewGame()
 board.pack(side= "left", expand=True, fill="both")
 # main loop
 window.mainloop()
+# while not checkWon():
+#     window.update_idletasks()
+#     window.update()

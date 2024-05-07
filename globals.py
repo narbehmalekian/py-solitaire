@@ -28,17 +28,20 @@ class State(StrEnum):
 
 gameState = State('start')
 
-selectedCard = None
-selectedStack = None
-tempStack = None
+# selectedCard = None
+originStack = None
 
 #
 #	GAME BOARD
 #
 
 #	define the rules for moving cards to each type of stack in solitaire
-homerule = lambda s, c : s[-1].suit == c.suit & s[-1].value + 1 == c.value if s.cards else c.value == 1
-playrule = lambda s, c : s[-1].color != c.color & s[-1].value - 1 == c.value
+homerule = lambda s, c : ((s[-1].suit == c.suit) & (s[-1].value + 1 == c.value)) if s.cards else c.value == 1
+	# if s.cards:
+	# 	return (s[-1].suit == c.suit) & (s[-1].value + 1 == c.value)
+	# else:
+	# 	return c.value == 1
+playrule = lambda s, c : ((s[-1].color != c.color) & (s[-1].value - 1 == c.value)) if s.cards else c.value == 13
 handrule = lambda s, c : False
 emptyrule = lambda s, c : c.value == 13
 
