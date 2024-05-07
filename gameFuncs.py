@@ -2,14 +2,23 @@ from globals import *
 import time
 
 def moveSelection(dest):
+	global score
+	global moves
 	if (dest == waste) & (originStack == stock):
 		waste.append(stock[-1])
 		stock.pop()
 		waste[-1].flip()
+		score += points['hand']
+		moves += 1
+		print(score)
 	elif dest.checkRule(dest, originStack.selected[0]):
 		for card in originStack.selected:
 			dest + card
 			originStack.pop()
+			score += points['move']
+			if dest in homeStacks:
+				score += points['home']
+			moves += 1
 	else:
 		print('invalid move')
 	deselect()

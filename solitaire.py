@@ -16,7 +16,7 @@ def click(button):
         stack = button
         if stack == stock:
             select(stack)
-        elif stack == waste:
+        elif (stack == waste) & (len(stock) > 0):
             select(stock[-1])
             select(waste)
         else:
