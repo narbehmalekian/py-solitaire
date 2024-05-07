@@ -8,6 +8,9 @@ headerColor = '#102'
 bgColor = '#213'
 cardColor = '#68F'
 textColor = '#DDF'
+# these are units of characters, not pixels
+cardWidth = 4
+cardHeight = 3
 
 #
 #	GAME STATE
@@ -36,12 +39,8 @@ originStack = None
 #
 
 #	define the rules for moving cards to each type of stack in solitaire
-homerule = lambda s, c : ((s[-1].suit == c.suit) & (s[-1].value + 1 == c.value)) if s.cards else c.value == 1
-	# if s.cards:
-	# 	return (s[-1].suit == c.suit) & (s[-1].value + 1 == c.value)
-	# else:
-	# 	return c.value == 1
-playrule = lambda s, c : ((s[-1].color != c.color) & (s[-1].value - 1 == c.value)) if s.cards else c.value == 13
+homerule = lambda s, c : s[-1].suit == c.suit and s[-1].value + 1 == c.value if s.cards else c.value == 1
+playrule = lambda s, c : s[-1].color != c.color and s[-1].value - 1 == c.value
 handrule = lambda s, c : False
 emptyrule = lambda s, c : c.value == 13
 

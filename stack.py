@@ -111,6 +111,12 @@ class Stack:
 			else:
 				selectCard(item)
 
+	def index(stack, card):
+		for i, c in enumerate(stack.cards):
+			if c is card:
+				return i
+			raise ValueError("Card not found in the stack")
+		
 	def deselect(stack):
 		stack.selected = []
 
