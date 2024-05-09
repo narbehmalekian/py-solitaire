@@ -77,8 +77,8 @@ class Stack:
 	def dump(stack):
 		stack.cards = []
 
-	def checkRule(stack, dest, card)->bool:
-		return stack.rule(dest, card)
+	def checkRule(stack, card)->bool:
+		return stack.rule(stack, card)
 
 	#	positions cards according to the stack's arrangement
 	def tidy(stack):

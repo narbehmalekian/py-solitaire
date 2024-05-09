@@ -11,7 +11,7 @@ def moveSelection(dest):
 		score += points['hand']
 		moves += 1
 		print(score)
-	elif dest.checkRule(dest, originStack.selected[0]):
+	elif dest.checkRule(originStack.selected[0]):
 		for card in originStack.selected:
 			dest + card
 			originStack.pop()
